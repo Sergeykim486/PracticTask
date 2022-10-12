@@ -3,7 +3,7 @@
 int choice = 1; // ТЕКУЩИЙ ВЫБРАННЫЙ ЭЛЕМЕНТ
 // Список меню
 string[] ListMenu = {
-    "                                                                          ",
+    "  Извлечь из массива строк, строки с длиной равной или меньше 3.          ",
     "  ВЫХОД ИЗ ПРОГРАММЫ                                                      "};
 Console.ForegroundColor = ConsoleColor.White;
 Console.BackgroundColor = ConsoleColor.Black;
@@ -149,6 +149,24 @@ AskAgayn:
     }
     else main();
 }
+void ShowArray(string[] array1) // Вывести на экран массив
+{
+    for (int i = 0; i < array1.Length; i++)
+    {
+        if (i != array1.Length - 1) Console.Write($"{array1[i]}, ");
+        else Console.WriteLine($"{array1[i]}.\n");
+    }
+}
+string[] FillArray(int m)
+{
+    string[] array1 = new string [m];
+    for (int i = 0; i < m; i++)
+    {
+        Console.Write($"Введите значение {i}-го элемента. ");
+        array1[i] = GetString();
+    }
+    return (array1);
+}
 
 // ═══════════════════════════════ Обработка выбранного элемента в меню ═══════════════════════════════
 
@@ -201,10 +219,35 @@ restart:
             case 1:
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Задача:");
+                Console.WriteLine("Задача: Написать программу, которая из имеющегося массива строк формирует массив из строк, длина которых меньше либо равна 3 символам. Первоначальный массив можно ввести с клавиатуры, либо задать в начале алгоритма.");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Укажите длину первого массива...");
+                int m = GetNum();
+                string[] array1 = FillArray(m);
+                int SecondArrayLength = 0;
+                for (int i = 0; i < m; i++)
+                {
+                    int lineLen = Convert.ToInt32(array1[i].Length);
+                    if (lineLen <= 3) SecondArrayLength = SecondArrayLength + 1;
+                }
+                string[] array2 = new string[SecondArrayLength];
+                int j = 0;
+                for (int i = 0; i < m; i++)
+                {
+                    int lineLen = Convert.ToInt32(array1[i].Length);
+                    if (lineLen <= 3)
+                    {
+                        array2[j] = array1[i];
+                        j++;
+                    }
+                }
                 // Вывод результата на экран...
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n");
+                Console.Write("\n═══════════════════════════════════════════════════════════════════════════════════════════\n\n");
+                Console.Write("Сгенерированный массив:\n");
+                ShowArray(array1);
+                Console.Write("Из первого массива были выбраны и добавлены во второй следующие строки:\n");
+                ShowArray(array2);
                 Console.Write("═══════════════════════════════════════════════════════════════════════════════════════════\n\n");
                 pause();
                 goto restart;
